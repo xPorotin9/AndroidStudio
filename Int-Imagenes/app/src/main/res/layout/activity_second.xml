@@ -5,17 +5,37 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Imagen seleccionada -->
     <ImageView
-        android:id="@+id/image_view"
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitCenter" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scaleType="centerInside"/>
 
-    <!-- Botón para volver -->
-    <Button
-        android:id="@+id/button_back"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Volver" />
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnPrevious"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/previous" />
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next"
+            android:layout_marginStart="16dp"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back"
+        android:layout_gravity="end"/>
 </LinearLayout>
