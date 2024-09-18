@@ -1,5 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Imagenes</string>
-    <string name="button_next">Siguiente</string>
-    <string name="button_back">Volver</string>
+    <string name="app_name">Spotifai</string>
+    <string name="menu">Menu</string>
+    <string name="previous">Anterior</string>
+    <string name="next">Siguiente</string>
+    <string name="back">Menu</string>
 </resources>
