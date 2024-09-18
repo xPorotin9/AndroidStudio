@@ -1,8 +1,15 @@
+<!-- res/values/colors.xml -->
 <resources>
-    <color name="purple_500">#6200EE</color>
-    <color name="purple_700">#3700B3</color>
-    <color name="teal_200">#03DAC5</color>
-    <color name="teal_700">#018786</color>
-    <color name="white">#FFFFFF</color>
+    <!-- Definiciones de colores -->
+    <color name="colorPrimary">#1A6DAF</color>
+    <color name="colorPrimaryDark">#003B6F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="textColor">#FFFFFF</color>
+    <color name="background">#121212</color>
     <color name="black">#000000</color>
+    <color name="dark_gray">#333333</color>
+    <color name="white">#FFFFFF</color>
+    <color name="teal_200">#03DAC5</color>
+    <color name="purple_500">#6200EE</color>
+
 </resources>
