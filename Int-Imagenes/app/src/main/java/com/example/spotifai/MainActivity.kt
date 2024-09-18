@@ -7,44 +7,26 @@ package com.example.spotifai
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
+import android.widget.AdapterView
+import android.widget.GridView
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var spinner: Spinner
-    private val imageNames = arrayOf("Imagen 1", "Imagen 2", "Imagen 3")
+    private val images = arrayOf(R.drawable.dogi, R.drawable.sublimeow, R.drawable.spinlog, R.drawable.bruh, R.drawable.calc, R.drawable.claz, R.drawable.door, R.drawable.fondo, R.drawable.plop)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        spinner = findViewById(R.id.spinner)
-        val buttonNext: Button = findViewById(R.id.button_next)
+        val gridView = findViewById<GridView>(R.id.gridViewImages)
+        val adapter = ImageAdapter(this, images)
+        gridView.adapter = adapter
 
-        // Poblar el spinner con los nombres de las imágenes
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, imageNames)
-        spinner.adapter = adapter
-
-        // Manejar el clic en el botón para ir a la segunda actividad
-        buttonNext.setOnClickListener {
+        gridView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             val intent = Intent(this, SecondActivity::class.java)
-            // Pasar la imagen seleccionada a la segunda actividad
-            intent.putExtra("selectedImage", spinner.selectedItemPosition)
+            intent.putExtra("image_id", images[position])
             startActivity(intent)
         }
-
-        // Restaurar selección del spinner si se gira la pantalla
-        savedInstanceState?.let {
-            spinner.setSelection(it.getInt("spinnerSelection"))
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        // Guardar la selección del spinner
-        outState.putInt("spinnerSelection", spinner.selectedItemPosition)
     }
 }
