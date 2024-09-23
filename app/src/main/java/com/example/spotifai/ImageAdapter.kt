@@ -19,7 +19,7 @@ class ImageAdapter(private val context: Context, private val images: Array<Int>)
         val imageView: ImageView = convertView?.findViewById(R.id.imageView) ?: run {
             val inflater = LayoutInflater.from(context)
             val view = inflater.inflate(R.layout.grid_item_image, parent, false)
-            view.findViewById<ImageView>(R.id.imageView)
+            view.findViewById(R.id.imageView)
         }
         imageView.setImageResource(images[position])
         return imageView

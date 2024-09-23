@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
-
     <!-- Barra superior con el color y texto -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,21 +14,19 @@
         android:gravity="center_vertical">
 
         <TextView
+            android:id="@+id/title_gallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Galería"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:text="@string/title_gallery" />
+
     </LinearLayout>
 
     <GridView
         android:id="@+id/gridViewImages"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:numColumns="auto_fit"
-        android:verticalSpacing="10dp"
+        android:layout_height="wrap_content"
+        android:numColumns="2"
         android:horizontalSpacing="10dp"
-        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp"
         android:gravity="center"/>
 </LinearLayout>
