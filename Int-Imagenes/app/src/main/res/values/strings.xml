@@ -5,4 +5,5 @@
     <string name="previous">Anterior</string>
     <string name="next">Siguiente</string>
     <string name="back">Menu</string>
+    <string name="image_content_description">Image</string>
 </resources>
