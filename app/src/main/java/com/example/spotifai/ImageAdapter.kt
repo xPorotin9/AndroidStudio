@@ -1,7 +1,6 @@
 package com.example.spotifai
 
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
@@ -9,19 +8,31 @@ import android.widget.ImageView
 
 class ImageAdapter(private val context: Context, private val images: Array<Int>) : BaseAdapter() {
 
-    override fun getCount(): Int = images.size
+    override fun getCount(): Int {
+        return images.size
+    }
 
-    override fun getItem(position: Int): Any = images[position]
+    override fun getItem(position: Int): Any {
+        return images[position]
+    }
 
-    override fun getItemId(position: Int): Long = position.toLong()
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val imageView: ImageView = convertView?.findViewById(R.id.imageView) ?: run {
-            val inflater = LayoutInflater.from(context)
-            val view = inflater.inflate(R.layout.grid_item_image, parent, false)
-            view.findViewById(R.id.imageView)
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        val imageView: ImageView
+        if (convertView == null) {
+            imageView = ImageView(context)
+            imageView.layoutParams = ViewGroup.LayoutParams(200, 200)
+            imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+            imageView.setPadding(8, 8, 8, 8)
+        } else {
+            imageView = convertView as ImageView
         }
+
         imageView.setImageResource(images[position])
         return imageView
     }
 }
+
