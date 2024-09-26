@@ -13,6 +13,7 @@
     <string name="btn_back">Volver</string>
     <string name="btn_previous">Anterior</string>
     <string name="btn_next">Siguiente</string>
-    <string name="title_gallery">Spotifai</string>
+    <string name="title_gallery">Lista</string>
+    <string name="image_desc">Descripción de la imagen</string>
 
 </resources>
