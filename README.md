@@ -6,6 +6,9 @@ Repositorio exclusivamente dirigido para subir proyectos hechos para dispositivo
 - Branch Master: Implementacion de [@Interacción con imagenes](https://github.com/xPorotin9/AndroidStudio)
 ## Práctica 4. Fragments.
 - Branch Fragment-Img: Implementacion de [@Imagenes con Fragments](https://github.com/xPorotin9/AndroidStudio/tree/Fragment-Img)
+- Branch Reproductor-Fragments: Implementacion de [@Reproductor con Fragments](https://github.com/xPorotin9/AndroidStudio/tree/Reproductor-Fragments)
+## Práctica 5. RecyclerView
+- Branch Reproductor-RecyclerView: Implementacion de [@Reproductor con RecyclerView](https://github.com/xPorotin9/AndroidStudio/tree/Reproductor-RecyclerView)
 
 ## Repositorio de practicas Kotlin (Unidad I)
 https://github.com/xPorotin9/Moviles
