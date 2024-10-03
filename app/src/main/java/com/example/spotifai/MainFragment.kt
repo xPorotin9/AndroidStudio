@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.GridView
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainFragment : Fragment() {
 
@@ -49,16 +50,14 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Configura el GridView para mostrar las imágenes
-        val gridView = view.findViewById<GridView>(R.id.gridViewImages)
-        val adapter = ImageAdapter(requireContext(), images) // Usa un adaptador personalizado para las imágenes
-        gridView.adapter = adapter
-
-        // Establece un listener para manejar clics en los elementos del GridView
-        gridView.setOnItemClickListener { _, _, position, _ ->
+        // Configura el RecyclerView para mostrar las imágenes
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewImages)
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2) // 2 columnas
+        val adapter = SongAdapter(images) { position ->
             // Llama al método 'navigateToPlayer' de MainActivity, pasando la posición de la imagen seleccionada
             (activity as? MainActivity)?.navigateToPlayer(position)
         }
+        recyclerView.adapter = adapter
 
         // Configura el Spinner para mostrar las canciones
         val spinner = view.findViewById<Spinner>(R.id.spinner_songs)

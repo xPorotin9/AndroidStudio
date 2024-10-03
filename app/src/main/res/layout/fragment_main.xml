@@ -2,39 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
 
-    <!-- Barra superior con el color y texto -->
-    <LinearLayout
+    <Spinner
+        android:id="@+id/spinner_songs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#1A6DAF"
-        android:padding="8dp"
-        android:gravity="center_vertical">
+        android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/title_gallery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/title_gallery" />
-
-        <!-- Spinner para las canciones -->
-        <Spinner
-            android:id="@+id/spinner_songs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:background="#FFFFFF"/>
-    </LinearLayout>
-
-    <GridView
-        android:id="@+id/gridViewImages"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewImages"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="2"
-        android:horizontalSpacing="10dp"
-        android:verticalSpacing="10dp"
-        android:gravity="center"/>
+        android:layout_height="match_parent" />
+
 </LinearLayout>

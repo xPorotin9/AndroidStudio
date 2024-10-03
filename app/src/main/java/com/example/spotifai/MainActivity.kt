@@ -1,7 +1,7 @@
-// Descripción: Reproductor de Música usando Fragments
+// Descripción: Reproductor de Música versión RecyclerView
 // Autor: José C. Machaca
-// Fecha creación: 25-08
-// Fecha última modificación: 26-09 : 00:35
+// Fecha creación: 26-09
+// Fecha última modificación: 02-10
 
 package com.example.spotifai
 

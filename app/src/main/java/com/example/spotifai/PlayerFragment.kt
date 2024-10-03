@@ -14,9 +14,10 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 
 class PlayerFragment : Fragment() {
-    private var mediaPlayer: MediaPlayer? = null
+    private var mediaPlayer: MediaPlayer? = null // Reproductor de audio
     private var isPlaying = false // Booleano que indica si el audio está en reproducción
     private val handler = Handler(Looper.getMainLooper()) // Manejador para actualizar la barra de progreso
+    private var currentPosition = 0 // Posición actual de la canción
 
     // Array de portadas de canciones
     private val images = arrayOf(
@@ -82,22 +83,23 @@ class PlayerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val position = arguments?.getInt(ARG_POSITION, 0) ?: 0 // Obtiene la posición seleccionada
+        currentPosition = arguments?.getInt(ARG_POSITION, 0) ?: 0 // Obtiene la posición seleccionada
 
         // Inicializa los elementos de la UI
         val imageView = view.findViewById<ImageView>(R.id.imageView)
         val btnBack = view.findViewById<Button>(R.id.btnBack)
         val btnPlayPause = view.findViewById<Button>(R.id.btnPlayPause)
+        val btnPrevious = view.findViewById<Button>(R.id.btnPrevious)
+        val btnNext = view.findViewById<Button>(R.id.btnNext)
         val seekBar = view.findViewById<SeekBar>(R.id.seekBar)
         val tvElapsedTime = view.findViewById<TextView>(R.id.tvElapsedTime)
         val tvTotalTime = view.findViewById<TextView>(R.id.tvTotalTime)
         val tvSongTitle = view.findViewById<TextView>(R.id.tvSongTitle)
 
-        imageView.setImageResource(images[position]) // Establece la portada de la canción
-        tvSongTitle.text = songs[position] // Establece el título de la canción
+        updateUI(currentPosition) // Actualiza la interfaz con la canción seleccionada
 
         // Inicia la reproducción del audio seleccionado
-        playAudio(audios[position], seekBar, tvElapsedTime, tvTotalTime)
+        playAudio(audios[currentPosition], seekBar, tvElapsedTime, tvTotalTime)
 
         // Configura el botón 'Volver' para detener el audio y regresar al fragmento anterior
         btnBack.setOnClickListener {
@@ -116,6 +118,16 @@ class PlayerFragment : Fragment() {
             }
         }
 
+        // Configura el botón 'Anterior' para ir a la canción anterior
+        btnPrevious.setOnClickListener {
+            playPreviousSong() // Reproduce la canción anterior
+        }
+
+        // Configura el botón 'Siguiente' para ir a la siguiente canción
+        btnNext.setOnClickListener {
+            playNextSong() // Reproduce la siguiente canción
+        }
+
         // Listener para la barra de progreso del audio
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -129,15 +141,45 @@ class PlayerFragment : Fragment() {
         })
     }
 
+    // Método para actualizar la interfaz con la canción correspondiente
+    private fun updateUI(position: Int) {
+        view?.apply {
+            findViewById<ImageView>(R.id.imageView).setImageResource(images[position]) // Cambia la imagen de la portada
+            findViewById<TextView>(R.id.tvSongTitle).text = songs[position] // Cambia el título de la canción
+        }
+    }
+
+    // Método para reproducir la canción anterior
+    private fun playPreviousSong() {
+        if (currentPosition > 0) {
+            currentPosition-- // Decrementa la posición
+        } else {
+            currentPosition = songs.size - 1 // Va a la última canción
+        }
+        updateUI(currentPosition)
+        playAudio(audios[currentPosition], view?.findViewById(R.id.seekBar), view?.findViewById(R.id.tvElapsedTime), view?.findViewById(R.id.tvTotalTime))
+    }
+
+    // Método para reproducir la siguiente canción
+    private fun playNextSong() {
+        if (currentPosition < songs.size - 1) {
+            currentPosition++ // Incrementa la posición
+        } else {
+            currentPosition = 0 // Va a la primera canción
+        }
+        updateUI(currentPosition)
+        playAudio(audios[currentPosition], view?.findViewById(R.id.seekBar), view?.findViewById(R.id.tvElapsedTime), view?.findViewById(R.id.tvTotalTime))
+    }
+
     // Método para reproducir el audio
-    private fun playAudio(audioResource: Int, seekBar: SeekBar, tvElapsedTime: TextView, tvTotalTime: TextView) {
+    private fun playAudio(audioResource: Int, seekBar: SeekBar?, tvElapsedTime: TextView?, tvTotalTime: TextView?) {
         stopAudio() // Detiene cualquier audio en reproducción anterior
         mediaPlayer = MediaPlayer.create(requireContext(), audioResource) // Crea el MediaPlayer
         mediaPlayer?.start() // Inicia la reproducción
         isPlaying = true // Marca el audio como reproduciéndose
 
-        seekBar.max = mediaPlayer?.duration ?: 0 // Establece el máximo de la barra de progreso
-        tvTotalTime.text = formatTime(mediaPlayer?.duration ?: 0) // Muestra el tiempo total del audio
+        seekBar?.max = mediaPlayer?.duration ?: 0 // Establece el máximo de la barra de progreso
+        tvTotalTime?.text = formatTime(mediaPlayer?.duration ?: 0) // Muestra el tiempo total del audio
 
         updateSeekBar(seekBar, tvElapsedTime) // Actualiza la barra de progreso
 
@@ -155,10 +197,10 @@ class PlayerFragment : Fragment() {
     }
 
     // Método para actualizar la barra de progreso y el tiempo transcurrido
-    private fun updateSeekBar(seekBar: SeekBar, tvElapsedTime: TextView) {
+    private fun updateSeekBar(seekBar: SeekBar?, tvElapsedTime: TextView?) {
         mediaPlayer?.let {
-            seekBar.progress = it.currentPosition // Actualiza el progreso de la barra
-            tvElapsedTime.text = formatTime(it.currentPosition) // Actualiza el tiempo transcurrido
+            seekBar?.progress = it.currentPosition // Actualiza el progreso de la barra
+            tvElapsedTime?.text = formatTime(it.currentPosition) // Actualiza el tiempo transcurrido
 
             if (isPlaying) {
                 handler.postDelayed({ updateSeekBar(seekBar, tvElapsedTime) }, 1000) // Actualiza cada segundo
@@ -176,18 +218,20 @@ class PlayerFragment : Fragment() {
     private fun resumeAudio() {
         mediaPlayer?.start() // Reanuda el MediaPlayer
         isPlaying = true // Marca como reproduciendo
+        updateSeekBar(view?.findViewById(R.id.seekBar), view?.findViewById(R.id.tvElapsedTime)) // Actualiza la barra de progreso
     }
 
     // Método para detener y liberar el MediaPlayer
     private fun stopAudio() {
-        mediaPlayer?.release() // Libera el MediaPlayer
-        mediaPlayer = null
+        mediaPlayer?.release() // Libera los recursos del MediaPlayer
+        mediaPlayer = null // Anula la referencia
         isPlaying = false // Marca como no reproduciendo
     }
 
-    // Detiene el audio cuando el fragmento es destruido
+    // Método para liberar recursos cuando el fragmento es destruido
     override fun onDestroy() {
         super.onDestroy()
-        stopAudio() // Detiene cualquier reproducción de audio activa
+        stopAudio() // Detiene cualquier audio en reproducción
+        handler.removeCallbacksAndMessages(null) // Elimina las llamadas del handler
     }
 }
